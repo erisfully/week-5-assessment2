@@ -27,7 +27,7 @@ class ContactsApp < Sinatra::Base
   post "/login" do
     @user_database.insert({username: params[:username], password: params[:password]})
     if @user_database != nil
-      contact_list = @contact_database.all.select{|contact| contact[:id][:username] == "#{params[:username]}"}
+      contact_list = @contact_database.all.select{|contact| contact[:user_id]  == params[:username][:id]}
       erb :userhome, :locals => {:contacts => contact_list}
     else
       erb :root
