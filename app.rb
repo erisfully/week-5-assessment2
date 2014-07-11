@@ -21,7 +21,21 @@ class ContactsApp < Sinatra::Base
   end
 
   get "/" do
-    "Hello week 5"
+      erb :root
   end
 
+  post "/login" do
+    @user_database.insert({username: params[:username], password: params[:password]})
+    if @user_database != nil
+      contact_list = @contact_database.all.select{|contact| contact[:id][:username] == "#{params[:username]}"}
+      erb :userhome, :locals => {:contacts => contact_list}
+    else
+      erb :root
+    end
+  end
+
+  get "/login" do
+    erb :login
+  end
 end
+
